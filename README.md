@@ -17,9 +17,6 @@ As variáveis da Linguagem de Programação AGF contam com um sistema de valida�
 |:--------:|:--------:|
 |   bebel  |    int   |
 | mendonca |   float  |
-|  marilda |   char   |
-| floriano |  boolean |
-|  paulao  |  String  |
 
 Para declarar uma variável, deve-se definir o tipo seguido de dois pontos ( : ) após isso o nome da variável e ponto e virgula ( ; ) no final.
 Caso queira atribuir um valor à uma variável criada, basta fazer como no exemplo abaixo:
@@ -31,9 +28,6 @@ Caso não defina um valor por padrão as variáveis são iniciadas da seguinte f
 |:--------:|:---------:|
 |   bebel  |     0     |
 | mendonca |    0,0    |
-|  marilda |     \0    |
-| floriano |   Falso   |
-|  paulao  |     \0    |
 
 ### Comandos ###
 - 
