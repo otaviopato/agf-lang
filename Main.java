@@ -4,7 +4,7 @@ import java.util.Scanner;
 
 public class Main {
     public static void main(String[] args) {
-        Variavel variavel = new Variavel("mendonca", "flsoat", "0,0");
-        Interpretador interpretador = new Interpretador("#catucaPai##catucaMae#");
+        Interpretador interpretador = new Interpretador("testes/aninhamento.agf");
+        //Variavel variavel = new Variavel("mendonca", "teste", "0,0");
     }
 }

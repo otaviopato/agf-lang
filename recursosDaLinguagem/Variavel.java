@@ -63,12 +63,6 @@ public class Variavel {
                 validaDecimal = Float.parseFloat(this.valor.replace(',', '.'));
                 if (formatoInvalidoDecimal != 0)
                     Miscelanea.limpaTela("Casa decimal deve ser indicada com \",\".\nVariável -> " + this.nome);
-            } else if (this.retornaTipoParaJava() == "boolean") {
-                if (!(this.valor == "Falso" || this.valor == "Verdadeiro"))
-                    Miscelanea.limpaTela("Valor deve ser \"Falso\" ou \"Verdadeiro\".\nVariável -> " + this.nome);
-            } else if (this.retornaTipoParaJava() == "char") {
-                if (!(this.valor.length() != 1))
-                    Miscelanea.limpaTela("Valor inválido para caracter.\n-> " + this.nome);
             }
         } catch (NumberFormatException e){
             Miscelanea.limpaTela("Valor inválido para o tipo descrito.\nTipo: "
@@ -82,12 +76,6 @@ public class Variavel {
             return "0";
         } else if (tipo == "mendonca") {
             return "0,0";
-        } else if (tipo == "marilda") {
-            return "\0";
-        } else if (tipo == "floriano") {
-            return "falso";
-        } else if (tipo == "paulao") {
-            return "\0";
         }
 
         Miscelanea.limpaTela( 

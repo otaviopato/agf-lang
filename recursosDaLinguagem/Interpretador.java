@@ -2,24 +2,28 @@ package agf;
 import agf.Miscelanea;
 import agf.Variavel;
 
+import java.util.*;
+
 public class Interpretador {
-    private String linhasDoCodigoFonte;
+    private Arquivo arquivo;
+    Dictionary variaveis = new Hashtable<String, Variavel>();
     private final String cabecalho = "#catucaPai#";
     private final String rodape = "#catucaMae#";
 
-    public Interpretador(String linhasDoCodigoFonte) {
-        atribuiLinhasDoCodigoFonte(linhasDoCodigoFonte);
+    public Interpretador(String nomeDoArquivo) {
+        atribuiLinhasArquivo(nomeDoArquivo);
         verificaCabecalho();
         verificaRodape();
+        tokeniza();
         System.out.println("Código fonte lido com sucesso.");
     }
 
-    private void atribuiLinhasDoCodigoFonte(String linhasDoCodigoFonte) {
-        this.linhasDoCodigoFonte = linhasDoCodigoFonte;
+    private void tokeniza() { 
+        
     }
 
-    private String retornaLinhasDoCodigoFonte() {
-        return this.linhasDoCodigoFonte;
+    private void atribuiLinhasArquivo(String nomeDoArquivo) {
+        this.arquivo = new Arquivo(nomeDoArquivo);
     }
 
     private String retornaCabecalho() {
@@ -32,21 +36,19 @@ public class Interpretador {
 
     private void verificaCabecalho() {
         try {
-            if ( !retornaLinhasDoCodigoFonte().substring(0, retornaCabecalho().length()).equals(retornaCabecalho()))
-                Miscelanea.limpaTela("Cabeçalho não instanciado adequamente.\nCabeçalho tem que ser: -> \"" + retornaCabecalho() + "\".\nE não -> \"" + retornaLinhasDoCodigoFonte().substring(0, retornaCabecalho().length()) + "\".");
-            atribuiLinhasDoCodigoFonte(retornaLinhasDoCodigoFonte().substring(retornaCabecalho().length()));
+            if ( !this.arquivo.retornaLinha(0).equals(retornaCabecalho()))
+                Miscelanea.limpaTela("Cabeçalho não instanciado adequamente.\nCabeçalho tem que ser: -> \"" + retornaCabecalho() + "\".\nE não -> \"" + this.arquivo.retornaLinha(0) + "\".");
         } catch (IndexOutOfBoundsException e) {
-            Miscelanea.limpaTela("Código fonte incorreto:\n\"" + retornaLinhasDoCodigoFonte() +"\"\n");
+            Miscelanea.limpaTela("Código fonte incorreto:\n\"" + this.arquivo +"\"\n");
         }
     }
 
     private void verificaRodape() {
         try {
-            if ( !retornaLinhasDoCodigoFonte().substring(retornaLinhasDoCodigoFonte().length()-retornaRodape().length()).equals(retornaRodape()))
-                Miscelanea.limpaTela("Rodapé não instanciado adequamente.\nCabeçalho tem que ser: -> \"" + retornaRodape() + "\".\nE não -> \"" + retornaLinhasDoCodigoFonte().substring(0, retornaCabecalho().length()) + "\".");
-            atribuiLinhasDoCodigoFonte( retornaLinhasDoCodigoFonte().substring(0, retornaLinhasDoCodigoFonte().length()-retornaRodape().length()));
+            if ( !this.arquivo.retornaLinha(this.arquivo.retornaQuantidadeDeLinhas()-1).equals(retornaRodape()))
+                Miscelanea.limpaTela("Rodapé não instanciado adequamente.\nCabeçalho tem que ser: -> \"" + retornaRodape() + "\".\nE não -> \"" + this.arquivo.retornaLinha(this.arquivo.retornaQuantidadeDeLinhas()-1) + "\".");
         } catch (IndexOutOfBoundsException e) {
-            Miscelanea.limpaTela("Código fonte incorreto:\n\"" + retornaLinhasDoCodigoFonte() +"\"\n");
+            Miscelanea.limpaTela("Código fonte incorreto:\n\"" + this.arquivo +"\"\n");
         }
     }
 }
