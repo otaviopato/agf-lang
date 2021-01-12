@@ -1,0 +1,23 @@
+#catucaPai#
+bebel:i;
+bebel:j;
+i=0;
+j=i;
+taxi(i < 3) {;
+    beicola (i == 0) {;
+        carrarinha("Zero");
+    };
+    etelvina {;
+        carrarinha("Outro");
+        i=i+1;
+    };
+};
+beicola(i==3){;
+    beicola(j==0) {;
+        carrarinha("Ok!");
+    };
+    etelvina {;
+        carrarinha("Erro");
+    };
+};
+#catucaMae#

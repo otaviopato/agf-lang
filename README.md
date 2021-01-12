@@ -16,7 +16,7 @@ As variáveis da Linguagem de Programação AGF contam com um sistema de valida�
 |  **AGF** | **Java** |
 |:--------:|:--------:|
 |   bebel  |    int   |
-|  mendoca |   float  |
+| mendonca |   float  |
 |  marilda |   char   |
 | floriano |  boolean |
 |  paulao  |  String  |
@@ -30,7 +30,7 @@ Caso não defina um valor por padrão as variáveis são iniciadas da seguinte f
 |  **AGF** | **Valor** |
 |:--------:|:---------:|
 |   bebel  |     0     |
-|  mendoca |    0,0    |
+| mendonca |    0,0    |
 |  marilda |     \0    |
 | floriano |   Falso   |
 |  paulao  |     \0    |
