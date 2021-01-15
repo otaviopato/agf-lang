@@ -26,7 +26,6 @@ public class Arquivo {
                 adicionaLinha(aux);
             }
             leitor.close();
-            exibeLinhas();
         } catch (Exception e) {
             Miscelanea.limpaTela("Não foi possível abrir o arquivo: \"" + nomeDoArquivo + "\"\nEle existe mesmo ?\n");
             e.printStackTrace();
@@ -45,7 +44,7 @@ public class Arquivo {
         }
     }
 
-    private ArrayList<String> retornaLinhas(){
+    public ArrayList<String> retornaLinhas(){
         return this.linhas;
     }
 

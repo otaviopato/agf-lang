@@ -14,12 +14,13 @@ public class Interpretador {
         atribuiLinhasArquivo(nomeDoArquivo);
         verificaCabecalho();
         verificaRodape();
-        tokeniza();
+        identificaPalavrasReservadas();
         System.out.println("Código fonte lido com sucesso.");
     }
 
-    private void tokeniza() { 
-        
+    public void identificaPalavrasReservadas() { 
+        for (int i = 0; i < this.arquivo.retornaLinhas().size(); i++)
+            System.out.print(this.arquivo.retornaLinhas().get(i) + "\n");
     }
 
     private void atribuiLinhasArquivo(String nomeDoArquivo) {
