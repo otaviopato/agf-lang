@@ -52,9 +52,13 @@ public class Interpretador {
                 else {
                     if (this.variaveis.get(conteudo) == null)
                         Miscelanea.limpaTela("A variável: \"" + conteudo + "\", não existe.");
+                    thiis.variaveis.get(conteudo).atribuiValor("102012");
                     System.out.println(this.variaveis.get(conteudo));
                 }
-            }/*
+            } else if (PalavrasReservadas.identificaExpressao() {
+
+            }
+            /*
             else {
                 Miscelanea.limpaTela("Linha inválida: \n" + linhaAtual);
             }*/
