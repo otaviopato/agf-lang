@@ -2,7 +2,7 @@
 bebel:i;
 i=0;
 taxi(i<10){;
-    carrarinha(i);
+    carrarinha|i|;
     i=i+1;
 };
 #catucaMae#

@@ -14,10 +14,10 @@ taxi(i < 3) {;
 };
 beicola(i==3){;
     beicola(j==0) {;
-        carrarinha("Ok!");
+        carrarinha|"Ok!"|;
     };
     etelvina {;
-        carrarinha("Erro");
+        carrarinha|"Erro"|;
     };
 };
 #catucaMae#

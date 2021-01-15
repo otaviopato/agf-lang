@@ -10,7 +10,7 @@ public class Variavel {
     private static final Set<String> nomes = new HashSet<String>();
     private String tipo;
     private String nome;
-    private String valor;
+    public String valor;
 
     public Variavel(String tipo, String nome) {
         atribuiTipo(tipo);
@@ -110,6 +110,11 @@ public class Variavel {
         );
 
         return "Nunca retorna";
+    }
+
+    @Override
+    public String toString() {
+        return this.valor;
     }
 
 }

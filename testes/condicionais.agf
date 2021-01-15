@@ -2,9 +2,9 @@
 bebel:a;
 a=1;
 beicola(a > 1) {;
-    carrarinha("Maior");
+    carrarinha|"Maior"|;
 };
 etelvina {;
-    carrarinha("Menor");
+    carrarinha|"Menor"|;
 };
 #catucaMae#

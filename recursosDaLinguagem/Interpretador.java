@@ -15,16 +15,16 @@ public class Interpretador {
         atribuiLinhasArquivo(nomeDoArquivo);
         verificaCabecalho();
         verificaRodape();
-        identificaComandos();
+        identificaComandos(1, this.arquivo.retornaLinhas().size()-1);
         System.out.println("Código fonte lido com sucesso.");
     }
 
-    public void identificaComandos() {
+    public void identificaComandos(int atual, int fim) {
         String linhaAtual;
         String[] declaracao;
-        for (int flag = 0, i = 1; i < this.arquivo.retornaLinhas().size()-1; i++) {
+        for (; atual < fim; atual++) {
             // Recebe a linha atual
-            linhaAtual = this.arquivo.retornaLinhas().get(i);
+            linhaAtual = this.arquivo.retornaLinhas().get(atual);
 
             //Verifica se possui ; no final
             try {
@@ -33,15 +33,31 @@ public class Interpretador {
             } catch (IndexOutOfBoundsException e) {
                 Miscelanea.limpaTela("Faltando \";\" em:\n\"" + linhaAtual +"\"\n");
             }
-            // Verifica se é uma declarração de variável
+            // Verifica se é uma declaração de variável
             if (PalavrasReservadas.identificaDeclaracaoDeVariavel(linhaAtual) > 0) {
                 // Recebe todas variáveis
                 declaracao = linhaAtual.substring(linhaAtual.indexOf(":")+1, linhaAtual.indexOf(";")).split(",");
                 // Reconhece variáveis
                 for (int j = 0; j < declaracao.length; j++) {
-                    variaveis.put(declaracao[j], new Variavel(linhaAtual.substring(0, linhaAtual.indexOf(":")), declaracao[j]));
+                    Variavel novaVariavel = new Variavel(linhaAtual.substring(0, linhaAtual.indexOf(":")), declaracao[j]);
+                    this.variaveis.put(declaracao[j], novaVariavel);
                 }
-            }
+            } else if (PalavrasReservadas.identificaImpressao(linhaAtual) != "false") {
+                String conteudo = PalavrasReservadas.identificaImpressao(linhaAtual);
+                // String;
+                if (conteudo.indexOf("\"") != -1) {
+                        System.out.println(conteudo.substring(1, conteudo.length()-1));
+                    }
+                /* Variável */ 
+                else {
+                    if (this.variaveis.get(conteudo) == null)
+                        Miscelanea.limpaTela("A variável: \"" + conteudo + "\", não existe.");
+                    System.out.println(this.variaveis.get(conteudo));
+                }
+            }/*
+            else {
+                Miscelanea.limpaTela("Linha inválida: \n" + linhaAtual);
+            }*/
         }
     }
 

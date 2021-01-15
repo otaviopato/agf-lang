@@ -12,9 +12,35 @@ public class PalavrasReservadas {
     public static final String condicionalSe = "beicola";
     public static final String condicionalEntao = "etelvina";
 
+    public static String identificaImpressao(String linhaAtual) {
+        // Verifica se possui o caractere de inicio de conteúdo
+        if (linhaAtual.indexOf("|") == -1)
+            return "false";
+
+        
+        // Verifica se antes de | a declaração possui a palavra reservada respectiva a um inteiro
+        if (!PalavrasReservadas.exibe.equals(linhaAtual.substring(linhaAtual.indexOf(PalavrasReservadas.exibe), linhaAtual.indexOf("|"))))
+            return "false";
+
+        // Verifica se possui o fechamento da área de conteúdo
+        if (!linhaAtual.substring(linhaAtual.length()-2, linhaAtual.length()-1).equals("|"))
+            Miscelanea.limpaTela("Sintaxe inválida, falta fechar | em:\n-> " + linhaAtual);
+    
+        String conteudo = linhaAtual.substring(linhaAtual.indexOf("|")+1, linhaAtual.length()-2);
+        
+        // Imprime Variável
+        if (conteudo.indexOf("\"") == -1) {
+            if (verificaPalavrasReservadas(conteudo))
+                return "false";
+            return conteudo;
+        } else {
+            return conteudo;
+        }
+    }
+
     public static int identificaDeclaracaoDeVariavel(String linhaAtual) {
         // Vefificando se a "declaração" possui : e ;
-        if ( linhaAtual.indexOf(":") == -1 || linhaAtual.indexOf(";") == -1)
+        if ( linhaAtual.indexOf(":") == -1)
             return 0;
 
         // Verifica se antes de : a declaração possui a palavra reservada respectiva a um inteiro
@@ -31,7 +57,23 @@ public class PalavrasReservadas {
     }
 
     private static boolean verificaTipoVariveis(String tipoVariavel) {
-        String[] tiposVariaveis = {inteiro, pontoFlutuante};
+        String[] tiposVariaveis = {
+            inteiro,
+            pontoFlutuante
+        };
         return Arrays.stream(tiposVariaveis).anyMatch(tipoVariavel::equals);
     }
+
+    private static boolean verificaPalavrasReservadas(String palavra) {
+        String[] palavrasReservadas = {
+            inteiro,
+            pontoFlutuante,
+            exibe,
+            lacoRepeticao,
+            condicionalSe,
+            condicionalEntao
+        };
+        return Arrays.stream(palavrasReservadas).anyMatch(palavra::equals);
+    }
+
 }
