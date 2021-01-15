@@ -1,10 +1,10 @@
 #catucaPai#
-~bebel:a;
-~a=1;
-~beicola(a > 1) {;
-~    carrarinha("Maior");
-~};
-~etelvina {;
-~    carrarinha("Menor");
-~};
+bebel:a;
+a=1;
+beicola(a > 1) {;
+    carrarinha("Maior");
+};
+etelvina {;
+    carrarinha("Menor");
+};
 #catucaMae#

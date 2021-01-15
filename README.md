@@ -8,8 +8,24 @@ camelCase
 javac -d . .\recursosDaLinguagem\*.java
 ```
 
+**Linux:**
+
 ```bash
-javac -d . ./recursosDaLinguagem/*.java && javac Main.java && java Main
+javac -d . ./recursosDaLinguagem/*.java && javac Main.java && java Main testes/expressoes.agf
+```
+
+```bash
+javac -d . ./recursosDaLinguagem/*.java && javac Main.java && jar -cvf Main.java Main.class && jar -cfv agf-lang.jar Main.class
+```
+
+```bash
+javac -d . ./recursosDaLinguagem/*.java && jar cf agf-lang.jar ./recursosDaLinguagem/*.class && jar cfe agf-lang.jar com.baeldung.jar.JarExample com/baeldung/jar/*.class
+```
+
+**Executando:**
+
+```bash
+java -jar agf-lang.jar testes/expressoes.agf
 ```
 
 ### Variáveis ###

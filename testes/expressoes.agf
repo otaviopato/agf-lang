@@ -1,8 +1,8 @@
 #catucaPai#
-~bebel:a;
-~bebel:b;
-~a=1+1;
-~b=3+a;
-~carrarinha(a);
-~carrarinha(b);
+    bebel:a,batata,d;
+    mendonca:c;
+    a=1+1;
+    b=3+a;
+    carrarinha(a);
+    carrarinha(b);
 #catucaMae#

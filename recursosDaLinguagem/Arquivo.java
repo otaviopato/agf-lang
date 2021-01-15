@@ -15,15 +15,18 @@ public class Arquivo {
         try {
             this.nomeDoArquivo = nomeDoArquivo;
             if (!nomeDoArquivo.substring(nomeDoArquivo.length()-4).equals(".agf"))
-                Miscelanea.limpaTela("Extensão inválida.\nA Grande Família possui como extensão \".agf\"\n");
+                Miscelanea.limpaTela("Extensão inválida.\nA Grande Família possui como extensão \".agf\"");
             File arquivo = new File(nomeDoArquivo);
             Scanner leitor = new Scanner(arquivo);
             String aux;
             while (leitor.hasNextLine()) {
                 aux = leitor.nextLine();
-                if (!aux.contains("\""))
-                    aux = aux.replace(' ', '\0');
-                adicionaLinha(aux);
+                if (!aux.contains("\"")) {
+                    aux = aux.replace(" ", "");
+                    aux = aux.replace("\t", "");
+                }
+                if(!"".equals(aux))
+                    adicionaLinha(aux);
             }
             leitor.close();
         } catch (Exception e) {

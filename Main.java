@@ -1,11 +1,12 @@
 import agf.Variavel;
 import agf.Interpretador;
-import java.util.Scanner;
+import agf.Miscelanea;
 
 public class Main {
     public static void main(String[] args) {
-        Interpretador interpretador = new Interpretador("testes/aninhamento.agf");
-        interpretador.identificaPalavrasReservadas();
+        try {
+        //Interpretador interpretador = new Interpretador("testes/expressoes.agf");
+        Interpretador interpretador = new Interpretador(args[0]);
         /*
             TODO: Ler os primeiros caracteres de uma linha e verificar se eles compõem exatamente alguma palavra reservada:
                 mendonca:
@@ -17,5 +18,8 @@ public class Main {
             TODO: "Como comparar partes de strigs", "Algoritmos para comparar prefixos"
         */
         //Variavel variavel = new Variavel("mendonca", "teste", "0,0");
+        } catch (IndexOutOfBoundsException e) {
+            Miscelanea.limpaTela("Caminho para código fonte não econtrado.");
+        }
     }
 }
