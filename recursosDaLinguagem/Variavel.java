@@ -27,8 +27,10 @@ public class Variavel {
     private void atribuiNome(String nome) {
         if (nomes.contains(nome))
             Miscelanea.limpaTela("Já existe uma variável com esse nome.\nNome -> " + nome);
-        if (!nome.matches("[a-zA-Z_0-9]+"))
-            Miscelanea.limpaTela("Nome inválido para variáveis (deve conter apenas letras, números e _).\nNome -> " + this.nome);
+        if (!nome.matches("[\\w]+"))
+            Miscelanea.limpaTela("Nome inválido para variáveis (deve conter apenas letras, números e _).\nNome -> " + nome);
+        if (nome.matches("[0-9]+"))
+            Miscelanea.limpaTela("Nome inválido para variáveis (deve conter apenas letras, números _).\nNome -> " + nome);
         nomes.add(nome);
         this.nome = nome;
     }
@@ -74,6 +76,7 @@ public class Variavel {
              + "\nValor informado: " + this.valor);
         }
     }
+
 
     public String iniciaVariavel() {
         String aux = PalavrasReservadas.inteiro;

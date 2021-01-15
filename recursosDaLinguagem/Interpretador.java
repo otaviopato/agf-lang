@@ -52,11 +52,12 @@ public class Interpretador {
                 else {
                     if (this.variaveis.get(conteudo) == null)
                         Miscelanea.limpaTela("A variável: \"" + conteudo + "\", não existe.");
-                    thiis.variaveis.get(conteudo).atribuiValor("102012");
-                    System.out.println(this.variaveis.get(conteudo));
+                    System.out.println(this.variaveis.get(conteudo).retornaValor());
                 }
-            } else if (PalavrasReservadas.identificaExpressao() {
-
+            } else if (PalavrasReservadas.identificaExpressao(linhaAtual, variaveis) != "false") {
+                String conteudo = PalavrasReservadas.identificaExpressao(linhaAtual, variaveis);
+                String chave = linhaAtual.substring(0, linhaAtual.indexOf("="));
+                this.variaveis.get(chave).atribuiValor(conteudo);
             }
             /*
             else {

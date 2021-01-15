@@ -30,8 +30,7 @@ public class PalavrasReservadas {
         
         // Imprime Variável
         if (conteudo.indexOf("\"") == -1) {
-            if (verificaPalavrasReservadas(conteudo))
-                return "false";
+            verificaPalavrasReservadas(conteudo, linhaAtual);
             return conteudo;
         } else {
             return conteudo;
@@ -48,12 +47,97 @@ public class PalavrasReservadas {
             return 0;
 
         // Foi declarado apenas uma variável
-        if(linhaAtual.substring(linhaAtual.indexOf(":")+1, linhaAtual.indexOf(";")).matches("[a-zA-Z_0-9]+")) {
+        if(linhaAtual.substring(linhaAtual.indexOf(":")+1, linhaAtual.indexOf(";")).matches("[\\w]+")) {
             return 1;
         }
 
         // Foi declarado mais de uma variável
         return (linhaAtual.substring(linhaAtual.indexOf(":")+1, linhaAtual.indexOf(";")).split(",")).length;
+    }
+
+    public static String identificaExpressao(String linhaAtual, Hashtable<String, Variavel> vars) {
+        Hashtable<String, Variavel> variaveis = vars;
+        // Verifica se não é uma operação de comparação
+        if (linhaAtual.contains("=="))
+            return "false";
+
+        // Verifica se possui o caractere de inicio de conteúdo
+        if (linhaAtual.indexOf("=") == -1)
+            return "false";
+
+        // Verifica se o valor que recebe não possui o formato de uma variável
+        if (!linhaAtual.substring(0, linhaAtual.indexOf("=")).matches("[\\w]+") || linhaAtual.substring(0, linhaAtual.indexOf("=")).matches("[0-9]+"))
+            Miscelanea.limpaTela("Atribuição inválida em: \n-> " + linhaAtual);
+
+        // Verifica se antes de = a declaração possui uma palavra reservada
+        verificaPalavrasReservadas(linhaAtual.substring(0, linhaAtual.indexOf("=")), linhaAtual);
+        String[] valoresOperandos = linhaAtual.substring(linhaAtual.indexOf("=")+1, linhaAtual.length()-1).split("[-+\\/*%]");
+        // Atribuição de valor à uma variável
+        if (valoresOperandos.length == 1) {
+            if (valoresOperandos[0].matches("[0-9,]+"))
+                return valoresOperandos[0];
+            return variaveis.get(valoresOperandos[0]).retornaValor();
+        }
+        /* Atribuição do valor de uma expressão à uma variável */
+        else if (valoresOperandos.length == 2) {
+            String valor;
+            if (valoresOperandos[0].matches("[.]+") || valoresOperandos[1].matches("[.]+"))
+                Miscelanea.limpaTela("Casa decimal deve ser específicada por , e não .");
+
+            if (valoresOperandos[0].matches("[0-9,]+")) {
+                valor = valoresOperandos[0];
+            } else {
+                valor = variaveis.get(valoresOperandos[0]).retornaValor();
+            }
+            if (valoresOperandos[1].matches("[0-9,]+")) {
+                valor = realizaOperacao(valor, valoresOperandos[1], retornaOperacao(linhaAtual));
+            } else {
+                valor = realizaOperacao(valor, variaveis.get(valoresOperandos[1]).retornaValor(), retornaOperacao(linhaAtual));
+            }
+
+            return valor;
+        }
+        return "false";
+    }
+
+    private static String retornaOperacao(String linha) {
+        if (linha.indexOf("+") != -1)
+            return linha.substring(linha.indexOf("+"), linha.indexOf("+")+1);
+        if (linha.indexOf("-") != -1)
+            return linha.substring(linha.indexOf("-"), linha.indexOf("-")+1);
+        if (linha.indexOf("*") != -1)
+            return linha.substring(linha.indexOf("*"), linha.indexOf("*")+1);
+        if (linha.indexOf("/") != -1)
+            return linha.substring(linha.indexOf("/"), linha.indexOf("/")+1);
+        if (linha.indexOf("%") != -1)
+            return linha.substring(linha.indexOf("%"), linha.indexOf("%")+1);
+        return "";
+    }
+
+    private static String realizaOperacao(String valor1, String valor2, String operacao) {
+        String resultado = "";
+        if (!(valor1.indexOf(",") == valor1.indexOf(",")))
+            Miscelanea.limpaTela("Operação inválida, tipos diferentes.");
+
+        Float valorConvertido1 = Float.parseFloat(valor1.replace(",", "."));
+        Float valorConvertido2 = Float.parseFloat(valor2.replace(",", "."));
+        if (operacao.equals("+"))
+            resultado = Float.toString(valorConvertido1+valorConvertido2);
+        else if (operacao.equals("-"))
+            resultado = Float.toString(valorConvertido1-valorConvertido2);
+        else if (operacao.equals("/"))
+            resultado = Float.toString(valorConvertido1/valorConvertido2);
+        else if (operacao.equals("*"))
+            resultado = Float.toString(valorConvertido1*valorConvertido2);
+        else if (operacao.equals("%"))
+            resultado = Float.toString(valorConvertido1%valorConvertido2);
+
+        if (valor1.indexOf(",") != -1 && valor2.indexOf(",") != -1)
+            return resultado.replace(".", ",");
+        else if (valor1.matches("[0-9]+") && valor2.matches("[0-9]+"))
+            return resultado.substring(0, resultado.indexOf("."));
+        Miscelanea.limpaTela("Operação inválida:\n-> Valores = [" + valor1 + " -- " + valor2 + "];\nOperação = \"" + operacao + "\"\n");
+        return "Nunca retorna";
     }
 
     private static boolean verificaTipoVariveis(String tipoVariavel) {
@@ -64,7 +148,7 @@ public class PalavrasReservadas {
         return Arrays.stream(tiposVariaveis).anyMatch(tipoVariavel::equals);
     }
 
-    private static boolean verificaPalavrasReservadas(String palavra) {
+    private static void verificaPalavrasReservadas(String palavra, String linhaAtual) {
         String[] palavrasReservadas = {
             inteiro,
             pontoFlutuante,
@@ -73,7 +157,8 @@ public class PalavrasReservadas {
             condicionalSe,
             condicionalEntao
         };
-        return Arrays.stream(palavrasReservadas).anyMatch(palavra::equals);
+        if(Arrays.stream(palavrasReservadas).anyMatch(palavra::equals))
+            Miscelanea.limpaTela("Uso inválido de palavra reservada:\n-> " + linhaAtual);
     }
 
 }
