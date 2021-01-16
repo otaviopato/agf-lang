@@ -8,6 +8,7 @@ public class PalavrasReservadas {
     public static final String inteiro = "bebel";
     public static final String pontoFlutuante = "mendonca";
     public static final String exibe = "carrarinha";
+    public static final String leitura = "tuco";
     public static final String lacoRepeticao = "taxi";
     public static final String condicionalSe = "beicola";
     public static final String condicionalEntao = "etelvina";
@@ -17,7 +18,10 @@ public class PalavrasReservadas {
         if (linhaAtual.indexOf("|") == -1)
             return "false";
 
-        
+        // Verifica se é impressão
+        if (!linhaAtual.contains(PalavrasReservadas.exibe))
+            return "false";
+
         // Verifica se antes de | a declaração possui a palavra reservada respectiva a um inteiro
         if (!PalavrasReservadas.exibe.equals(linhaAtual.substring(linhaAtual.indexOf(PalavrasReservadas.exibe), linhaAtual.indexOf("|"))))
             return "false";
@@ -35,6 +39,43 @@ public class PalavrasReservadas {
         } else {
             return conteudo;
         }
+    }
+
+    public static String identificaLeitura(String linhaAtual, Hashtable<String, Variavel> vars) {
+        Hashtable<String, Variavel> variaveis = vars;
+        // Verifica se possui o caractere de inicio de conteúdo
+        if (linhaAtual.indexOf("|") == -1)
+            return "false";
+
+        // Verifica se é leitura
+        if (!linhaAtual.contains(PalavrasReservadas.leitura))
+            return "false";
+        
+        // Verifica se antes de | a declaração possui a palavra reservada respectiva a um inteiro
+        if (!PalavrasReservadas.leitura.equals(linhaAtual.substring(linhaAtual.indexOf(PalavrasReservadas.leitura), linhaAtual.indexOf("|"))))
+            return "false";
+
+        // Verifica se possui o fechamento da área de conteúdo
+        if (!linhaAtual.substring(linhaAtual.length()-2, linhaAtual.length()-1).equals("|"))
+            Miscelanea.limpaTela("Sintaxe inválida, falta fechar | em:\n-> " + linhaAtual);
+    
+        String conteudo = linhaAtual.substring(linhaAtual.indexOf("|")+1, linhaAtual.length()-2);
+
+        // Verifica se está no padrão de variável
+        if(!conteudo.matches("[\\w]"))
+            return "false";
+
+        // Verifica se não é uma palavra reservada
+        verificaPalavrasReservadas(conteudo, linhaAtual);
+
+        String chave = linhaAtual.substring(linhaAtual.indexOf("|")+1, linhaAtual.length()-2);
+        // Verifica se a variável existe
+        if (variaveis.get(chave) != null) {
+            return "true";
+        } else {
+            Miscelanea.limpaTela("Variável: \"" + chave + "\" não existe.");
+        }
+        return "false";
     }
 
     public static int identificaDeclaracaoDeVariavel(String linhaAtual) {
@@ -153,6 +194,7 @@ public class PalavrasReservadas {
             inteiro,
             pontoFlutuante,
             exibe,
+            leitura,
             lacoRepeticao,
             condicionalSe,
             condicionalEntao

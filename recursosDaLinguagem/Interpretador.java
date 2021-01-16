@@ -54,6 +54,18 @@ public class Interpretador {
                         Miscelanea.limpaTela("A variável: \"" + conteudo + "\", não existe.");
                     System.out.println(this.variaveis.get(conteudo).retornaValor());
                 }
+            } else if (PalavrasReservadas.identificaLeitura(linhaAtual, variaveis) != "false") {
+                // Lê Variável
+                Scanner entrada = new Scanner(System.in);
+                String chave = linhaAtual.substring(linhaAtual.indexOf("|")+1, linhaAtual.length()-2);
+                String conteudo = this.variaveis.get(chave).retornaValor();
+                // Lê
+                System.out.print("Digite uma variável do tipo \"" + variaveis.get(chave).retornaTipo() + "\" -> ");
+                if (variaveis.get(chave).retornaTipo().equals(PalavrasReservadas.inteiro))
+                    conteudo = String.valueOf(entrada.nextInt());
+                else if (variaveis.get(chave).retornaTipo().equals(PalavrasReservadas.pontoFlutuante))
+                    conteudo = Float.toString(entrada.nextFloat()).replace(".", ",");
+                this.variaveis.get(chave).atribuiValor(conteudo);
             } else if (PalavrasReservadas.identificaExpressao(linhaAtual, variaveis) != "false") {
                 String conteudo = PalavrasReservadas.identificaExpressao(linhaAtual, variaveis);
                 String chave = linhaAtual.substring(0, linhaAtual.indexOf("="));
