@@ -13,7 +13,9 @@ public class PalavrasReservadas {
     public static final String condicionalSe = "beicola";
     public static final String condicionalEntao = "etelvina";
 
-    public static String identificaImpressao(String linhaAtual) {
+    public static String identificaImpressao(String linhaAtual, Hashtable<String, Variavel> vars) {
+        boolean newLine = false;
+
         // Verifica se possui o caractere de inicio de conteúdo
         if (linhaAtual.indexOf("|") == -1)
             return "false";
@@ -22,8 +24,11 @@ public class PalavrasReservadas {
         if (!linhaAtual.contains(PalavrasReservadas.exibe))
             return "false";
 
-        // Verifica se antes de | a declaração possui a palavra reservada respectiva a um inteiro
-        if (!PalavrasReservadas.exibe.equals(linhaAtual.substring(linhaAtual.indexOf(PalavrasReservadas.exibe), linhaAtual.indexOf("|"))))
+        // Verifica se possui quebra de linha
+        if ((PalavrasReservadas.exibe+"ln").equals(linhaAtual.substring(linhaAtual.indexOf(PalavrasReservadas.exibe), linhaAtual.indexOf("|"))))
+            newLine = true;
+        // Verifica se antes de | a declaração possui a palavra reservada respectiva a impressão
+        else if (!PalavrasReservadas.exibe.equals(linhaAtual.substring(linhaAtual.indexOf(PalavrasReservadas.exibe), linhaAtual.indexOf("|"))))
             return "false";
 
         // Verifica se possui o fechamento da área de conteúdo
@@ -35,10 +40,19 @@ public class PalavrasReservadas {
         // Imprime Variável
         if (conteudo.indexOf("\"") == -1) {
             verificaPalavrasReservadas(conteudo, linhaAtual);
-            return conteudo;
+            if (vars.get(conteudo) == null)
+                Miscelanea.limpaTela("A variável: \"" + conteudo + "\", não existe.");
+            if (newLine)
+                System.out.println(vars.get(conteudo).retornaValor());
+            else
+                System.out.print(vars.get(conteudo).retornaValor());
         } else {
-            return conteudo;
+            if (newLine)
+                System.out.println(conteudo.substring(1, conteudo.length()-1));
+            else
+                System.out.print(conteudo.substring(1, conteudo.length()-1));
         }
+        return "false";
     }
 
     public static String identificaLeitura(String linhaAtual, Hashtable<String, Variavel> vars) {
@@ -106,12 +120,16 @@ public class PalavrasReservadas {
         if (linhaAtual.indexOf("=") == -1)
             return "false";
 
-        // Verifica se o valor que recebe não possui o formato de uma variável
-        if (!linhaAtual.substring(0, linhaAtual.indexOf("=")).matches("[\\w]+") || linhaAtual.substring(0, linhaAtual.indexOf("=")).matches("[0-9]+"))
-            Miscelanea.limpaTela("Atribuição inválida em: \n-> " + linhaAtual);
+        if (linhaAtual.indexOf("|") != -1)
+            return "false";
 
         // Verifica se antes de = a declaração possui uma palavra reservada
         verificaPalavrasReservadas(linhaAtual.substring(0, linhaAtual.indexOf("=")), linhaAtual);
+
+        // Verifica se é uma variável existente
+        if(vars.get(linhaAtual.substring(0, linhaAtual.indexOf("="))) == null)
+            Miscelanea.limpaTela("Variável não declarada previamente: \"" + linhaAtual.substring(0, linhaAtual.indexOf("=")) + "\".");
+
         String[] valoresOperandos = linhaAtual.substring(linhaAtual.indexOf("=")+1, linhaAtual.length()-1).split("[-+\\/*%]");
         // Atribuição de valor à uma variável
         if (valoresOperandos.length == 1) {

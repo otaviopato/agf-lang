@@ -42,18 +42,8 @@ public class Interpretador {
                     Variavel novaVariavel = new Variavel(linhaAtual.substring(0, linhaAtual.indexOf(":")), declaracao[j]);
                     this.variaveis.put(declaracao[j], novaVariavel);
                 }
-            } else if (PalavrasReservadas.identificaImpressao(linhaAtual) != "false") {
-                String conteudo = PalavrasReservadas.identificaImpressao(linhaAtual);
-                // String;
-                if (conteudo.indexOf("\"") != -1) {
-                        System.out.println(conteudo.substring(1, conteudo.length()-1));
-                    }
-                /* Variável */ 
-                else {
-                    if (this.variaveis.get(conteudo) == null)
-                        Miscelanea.limpaTela("A variável: \"" + conteudo + "\", não existe.");
-                    System.out.println(this.variaveis.get(conteudo).retornaValor());
-                }
+            } else if (PalavrasReservadas.identificaImpressao(linhaAtual, variaveis) != "false") {
+                PalavrasReservadas.identificaImpressao(linhaAtual, variaveis);
             } else if (PalavrasReservadas.identificaLeitura(linhaAtual, variaveis) != "false") {
                 // Lê Variável
                 Scanner entrada = new Scanner(System.in);
@@ -61,11 +51,15 @@ public class Interpretador {
                 String conteudo = this.variaveis.get(chave).retornaValor();
                 // Lê
                 System.out.print("Digite uma variável do tipo \"" + variaveis.get(chave).retornaTipo() + "\" -> ");
-                if (variaveis.get(chave).retornaTipo().equals(PalavrasReservadas.inteiro))
-                    conteudo = String.valueOf(entrada.nextInt());
-                else if (variaveis.get(chave).retornaTipo().equals(PalavrasReservadas.pontoFlutuante))
-                    conteudo = Float.toString(entrada.nextFloat()).replace(".", ",");
-                this.variaveis.get(chave).atribuiValor(conteudo);
+                try {
+                    if (variaveis.get(chave).retornaTipo().equals(PalavrasReservadas.inteiro))
+                        conteudo = String.valueOf(entrada.nextInt());
+                    else if (variaveis.get(chave).retornaTipo().equals(PalavrasReservadas.pontoFlutuante))
+                        conteudo = Float.toString(entrada.nextFloat()).replace(".", ",");
+                    this.variaveis.get(chave).atribuiValor(conteudo);
+                } catch (InputMismatchException e) {
+                    Miscelanea.limpaTela("Atribuição inválida, tipo esperado: \"" + variaveis.get(chave).retornaTipo() + "\".");
+                }
             } else if (PalavrasReservadas.identificaExpressao(linhaAtual, variaveis) != "false") {
                 String conteudo = PalavrasReservadas.identificaExpressao(linhaAtual, variaveis);
                 String chave = linhaAtual.substring(0, linhaAtual.indexOf("="));

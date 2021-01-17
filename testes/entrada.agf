@@ -1,12 +1,14 @@
 #catucaPai#
+carrarinha|"Teste"|;
+carrarinhaln|" : Valor"|;
 bebel:a;
 a=2;
-carrarinha|a|;
+carrarinhaln|a|;
 tuco|a|;
-carrarinha|a|;
+carrarinhaln|a|;
 mendonca:c;
 c=2,0;
-carrarinha|c|;
+carrarinhaln|c|;
 tuco|c|;
-carrarinha|c|;
+carrarinhaln|c|;
 #catucaMae#
