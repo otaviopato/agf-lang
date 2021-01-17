@@ -117,7 +117,7 @@ public class Interpretador {
                 if (!linhaAtual.substring(linhaAtual.length()-3, linhaAtual.length()-2).equals("|"))
                     Miscelanea.limpaTela("Sintaxe inválida, falta fechar | em:\n-> " + linhaAtual);
                 String comparacao = linhaAtual.substring(linhaAtual.indexOf("|")+1, linhaAtual.length()-2);
-                PalavrasReservadas.realizaComparacao(comparacao, this.variaveis);
+                System.out.println(linhaAtual + " = " + PalavrasReservadas.realizaComparacao(comparacao, this.variaveis));
             }
             return true;
         } else if (linhaAtual.substring(linhaAtual.length()-2).equals("};")) {
