@@ -1,11 +1,18 @@
 package agf;
+/**
+ * 
+ */
 import agf.Miscelanea;
 import agf.PalavrasReservadas;
-
+// 
 import java.util.Scanner;
 import java.util.Set;
 import java.util.HashSet;
 
+/**
+ * @author Otávio Pato
+ *
+ */
 public class Variavel {
     private static final Set<String> nomes = new HashSet<String>();
     private String tipo;
@@ -76,7 +83,6 @@ public class Variavel {
              + "\nValor informado: " + this.valor);
         }
     }
-
 
     public String iniciaVariavel() {
         String aux = PalavrasReservadas.inteiro;

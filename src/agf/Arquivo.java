@@ -1,11 +1,17 @@
 package agf;
-
+/**
+ * 
+ */
 import agf.Miscelanea;
+//
 import java.io.File;
 import java.util.Scanner;
 import java.util.ArrayList;
-import java.util.Iterator;
 
+/**
+ * @author Otávio Pato
+ *
+ */
 public class Arquivo {
     private ArrayList<String> linhas = new ArrayList<String>();
     public String nomeDoArquivo;

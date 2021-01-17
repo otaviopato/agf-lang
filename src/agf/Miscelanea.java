@@ -1,6 +1,9 @@
 package agf;
-import java.io.IOException;
-import java.util.Scanner;
+
+/**
+ * @author devp
+ *
+ */
 
 public class Miscelanea {
     public static void limpaTela(String mensagem) {

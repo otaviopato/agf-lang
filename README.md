@@ -1,34 +1,54 @@
 # AGF-Lang : A Grande Família - lang #
 
-camelCase
+A linguagem da Grande Família
 
-## Estrutura da Linguagem ##
+## Instruções de execução ##
 
-```bash
-javac -d . .\recursosDaLinguagem\*.java
-```
+### Windows ###
 
-**Linux:**
+#### Compilando manualmente ####
 
 ```bash
-javac -d . ./recursosDaLinguagem/*.java && javac Main.java && java Main testes/expressoes.agf
+javac -d . .\src\agf\*.java
 ```
+
+#### Executando Manualmente ####
 
 ```bash
-javac -d . ./recursosDaLinguagem/*.java && javac Main.java && jar -cvf Main.java Main.class && jar -cfv agf-lang.jar Main.class
+java .\agf\Main testes\expressoes.agf
 ```
+
+### Linux ###
+
+#### Compilando manualmente e Executando Manualmente ####
 
 ```bash
-javac -d . ./recursosDaLinguagem/*.java && jar cf agf-lang.jar ./recursosDaLinguagem/*.class && jar cfe agf-lang.jar com.baeldung.jar.JarExample com/baeldung/jar/*.class
+javac -d . ./src/agf/*.java && java agf/Main testes/expressoes.agf
 ```
 
-**Executando:**
+#### Compilando manualmente (linux) ####
+
+```bash
+javac -d . ./src/agf/*.jav
+```
+
+#### Executando Manualmente (linux) ####
+
+```bash
+java agf/Main testes/expressoes.agf
+```
+
+### Executando ###
+
+```bash
+java -jar agf-lang.jar .\testes\expressoes.agf
+```
 
 ```bash
 java -jar agf-lang.jar testes/expressoes.agf
 ```
 
-### Variáveis ###
+## Variáveis ##
 
 As variáveis da Linguagem de Programação AGF contam com um sistema de validação de tipo dentre outros necessários para uma linguagem de programação e possuem como respectivos tipos aos do Java de acordo com a  tabela abaixo:
 
@@ -50,7 +70,67 @@ Caso não defina um valor por padrão as variáveis são iniciadas da seguinte f
 |   bebel  |     0     |
 | mendonca |    0,0    |
 
-### Comandos ###
+As variáveis podem ter o nome do seu tipo alterado em PalavrasReservadas.java
 
-- Ou lógico: carraraTaxiOuTaxiCarrara
-- E lógico: lineu
+## Palavras Reservadas ##
+
+AGF conta com um sistema de palavras reservadas que podem ser alteradas, as palavras reservadas da linguagem são:
+
+- bebel: declaração de uma variável do tipo inteiro;
+
+```AGF
+#catucaPai#
+bebel:nomeDoInteiro;
+#catucaMae#
+```
+
+- mendonca: declaração de uma variável do tipo float;
+
+```AGF
+#catucaPai#
+mendonca:nomeDoFloat;
+#catucaMae#
+```
+
+- carrarinha (carrarinhaln): impressão de string ou variável (impressão de string ou variável com quebra de linha);
+
+```AGF
+#catucaPai#
+carrarinha|"Isso é um print"|;
+carrarinhaln|"Isso é um print com quebra de linha"|;
+#catucaMae#
+```
+
+- tuco: Atribuição de valor à uma variável via teclado;
+
+```AGF
+#catucaPai#
+tuco|nomeDoInteiro|;
+#catucaMae#
+```
+
+TODO:
+
+- taxi: Laço de repetição equivalente à um while;
+
+```AGF
+#catucaPai#
+taxi|nomeInteiro < 10|{;
+    carrarinha|"Repeticao: "|;
+    carrarinhaln|nomeInteiro|;
+};
+#catucaMae#
+```
+
+- beicola (etelvina): Estrutura condicional equivalente à um if (estrutura condicional equivalente à um else);
+
+```AGF
+#catucaPai#
+beicola|nomeInteiro == 10| {;
+    carrarinhaln|"Inteiro = 10"|;
+};
+etelvina {;
+    carrarinhaln|"Inteiro != 10"|;
+};
+#catucaMae#
+```

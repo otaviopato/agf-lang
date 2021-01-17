@@ -1,10 +1,18 @@
 package agf;
+/**
+ * 
+ */
 import agf.Miscelanea;
 import agf.Variavel;
 import agf.PalavrasReservadas;
-
+//
 import java.util.*;
 
+
+/**
+ * @author Otávio Pato
+ *
+ */
 public class Interpretador {
     private Arquivo arquivo;
     public Hashtable<String, Variavel> variaveis = new Hashtable<String, Variavel>();

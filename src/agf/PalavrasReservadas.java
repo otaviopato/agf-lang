@@ -1,9 +1,16 @@
 package agf;
+/**
+ * 
+ */
 import agf.Miscelanea;
 import agf.Variavel;
-
+//
 import java.util.*;
 
+/**
+ * @author Otávio Pato
+ *
+ */
 public class PalavrasReservadas {
     public static final String inteiro = "bebel";
     public static final String pontoFlutuante = "mendonca";
@@ -213,6 +220,7 @@ public class PalavrasReservadas {
             inteiro,
             pontoFlutuante,
             exibe,
+            exibe+"ln",
             leitura,
             lacoRepeticao,
             condicionalSe,
