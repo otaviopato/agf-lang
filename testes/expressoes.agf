@@ -2,6 +2,6 @@
     bebel:a,b;
     a=1+1;
     b=3+a;
-    carrarinhalnln|a|;
+    carrarinhaln|a|;
     carrarinhaln|b|;
 #catucaMae#

@@ -43,7 +43,6 @@ public class Interpretador {
                     this.variaveis.put(declaracao[j], novaVariavel);
                 }
             } else if (PalavrasReservadas.identificaImpressao(linhaAtual, variaveis) != "false") {
-                PalavrasReservadas.identificaImpressao(linhaAtual, variaveis);
             } else if (PalavrasReservadas.identificaLeitura(linhaAtual, variaveis) != "false") {
                 // Lê Variável
                 Scanner entrada = new Scanner(System.in);
@@ -64,11 +63,9 @@ public class Interpretador {
                 String conteudo = PalavrasReservadas.identificaExpressao(linhaAtual, variaveis);
                 String chave = linhaAtual.substring(0, linhaAtual.indexOf("="));
                 this.variaveis.get(chave).atribuiValor(conteudo);
-            }
-            /*
-            else {
+            } else {
                 Miscelanea.limpaTela("Linha inválida: \n" + linhaAtual);
-            }*/
+            }
         }
     }
 

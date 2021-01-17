@@ -46,13 +46,14 @@ public class PalavrasReservadas {
                 System.out.println(vars.get(conteudo).retornaValor());
             else
                 System.out.print(vars.get(conteudo).retornaValor());
+            return "variável";
         } else {
             if (newLine)
                 System.out.println(conteudo.substring(1, conteudo.length()-1));
             else
                 System.out.print(conteudo.substring(1, conteudo.length()-1));
+            return "string";
         }
-        return "false";
     }
 
     public static String identificaLeitura(String linhaAtual, Hashtable<String, Variavel> vars) {
