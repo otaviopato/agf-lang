@@ -15,16 +15,41 @@ import java.util.*;
  */
 public class Interpretador {
     private Arquivo arquivo;
-    public Hashtable<String, Variavel> variaveis = new Hashtable<String, Variavel>();
+    public Map<String, Variavel> variaveis = new HashMap<String, Variavel>();
+    private int aberturasDeEscopo;
+    private int fechamentosDeEscopo;
     private final String cabecalho = "#catucaPai#";
     private final String rodape = "#catucaMae#";
 
     public Interpretador(String nomeDoArquivo) {
+        atribuiAberturasDeEscopo(0);
+        atribuiFechamentosDeEscopo(0);
         atribuiLinhasArquivo(nomeDoArquivo);
         verificaCabecalho();
         verificaRodape();
         identificaComandos(1, this.arquivo.retornaLinhas().size()-1);
         System.out.println("Código fonte lido com sucesso.");
+    }
+
+    public void atribuiAberturasDeEscopo(int aberturasDeEscopo) {
+        this.aberturasDeEscopo = aberturasDeEscopo;
+    }
+
+    public void atribuiFechamentosDeEscopo(int fechamentosDeEscopo) {
+        this.fechamentosDeEscopo = fechamentosDeEscopo;
+    }
+
+    public int retornaAberturasDeEscopo() {
+        return this.aberturasDeEscopo = aberturasDeEscopo;
+    }
+
+    public int retornaFechamentosDeEscopo() {
+        return this.fechamentosDeEscopo = fechamentosDeEscopo;
+    }
+
+    public void validaAberturasEFechamentosDeEscopo() {
+        if (this.retornaAberturasDeEscopo() != this.retornaFechamentosDeEscopo())
+            Miscelanea.limpaTela("Erro de escopo, faltam ou sobram declarações de escopo.");
     }
 
     public void identificaComandos(int atual, int fim) {
@@ -71,10 +96,35 @@ public class Interpretador {
                 String conteudo = PalavrasReservadas.identificaExpressao(linhaAtual, variaveis);
                 String chave = linhaAtual.substring(0, linhaAtual.indexOf("="));
                 this.variaveis.get(chave).atribuiValor(conteudo);
+            } else if (this.identificaEscopo(linhaAtual)) {
             } else {
                 Miscelanea.limpaTela("Linha inválida: \n" + linhaAtual);
             }
         }
+        this.validaAberturasEFechamentosDeEscopo();
+    }
+
+    private boolean identificaEscopo(String linhaAtual) {
+        // Verifica se possui o caractere de inicio de conteúdo
+        if (linhaAtual.indexOf("|") == -1 && !linhaAtual.contains(PalavrasReservadas.condicionalEntao) && !linhaAtual.equals("};"))
+            return false;
+
+        // Verifica abertura de escopo
+        if (linhaAtual.substring(linhaAtual.length()-2).equals("{;")) {
+            this.atribuiAberturasDeEscopo((this.retornaAberturasDeEscopo()+1));
+            if (linhaAtual.indexOf("|") != -1) {
+                // Verifica se possui o fechamento da área de conteúdo
+                if (!linhaAtual.substring(linhaAtual.length()-3, linhaAtual.length()-2).equals("|"))
+                    Miscelanea.limpaTela("Sintaxe inválida, falta fechar | em:\n-> " + linhaAtual);
+                String comparacao = linhaAtual.substring(linhaAtual.indexOf("|")+1, linhaAtual.length()-2);
+                PalavrasReservadas.realizaComparacao(comparacao, this.variaveis);
+            }
+            return true;
+        } else if (linhaAtual.substring(linhaAtual.length()-2).equals("};")) {
+            this.atribuiFechamentosDeEscopo((this.retornaFechamentosDeEscopo()+1));
+            return true;
+        }
+        return false;
     }
 
     private void atribuiLinhasArquivo(String nomeDoArquivo) {

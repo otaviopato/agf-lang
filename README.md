@@ -76,7 +76,7 @@ As variáveis podem ter o nome do seu tipo alterado em PalavrasReservadas.java
 
 AGF conta com um sistema de palavras reservadas que podem ser alteradas, as palavras reservadas da linguagem são:
 
-- bebel: declaração de uma variável do tipo inteiro;
+- **bebel**: declaração de uma variável do tipo inteiro;
 
 ```AGF
 #catucaPai#
@@ -84,7 +84,7 @@ bebel:nomeDoInteiro;
 #catucaMae#
 ```
 
-- mendonca: declaração de uma variável do tipo float;
+- **mendonca**: declaração de uma variável do tipo float;
 
 ```AGF
 #catucaPai#
@@ -92,7 +92,7 @@ mendonca:nomeDoFloat;
 #catucaMae#
 ```
 
-- carrarinha (carrarinhaln): impressão de string ou variável (impressão de string ou variável com quebra de linha);
+- **carrarinha** (**carrarinhaln**): impressão de string ou variável (impressão de string ou variável com quebra de linha);
 
 ```AGF
 #catucaPai#
@@ -101,7 +101,7 @@ carrarinhaln|"Isso é um print com quebra de linha"|;
 #catucaMae#
 ```
 
-- tuco: Atribuição de valor à uma variável via teclado;
+- **tuco**: Atribuição de valor à uma variável via teclado;
 
 ```AGF
 #catucaPai#
@@ -111,18 +111,18 @@ tuco|nomeDoInteiro|;
 
 TODO:
 
-- taxi: Laço de repetição equivalente à um while;
+- **lineu**: Laço de repetição equivalente à um while;
 
 ```AGF
 #catucaPai#
-taxi|nomeInteiro < 10|{;
+lineu|nomeInteiro < 10|{;
     carrarinha|"Repeticao: "|;
     carrarinhaln|nomeInteiro|;
 };
 #catucaMae#
 ```
 
-- beicola (etelvina): Estrutura condicional equivalente à um if (estrutura condicional equivalente à um else);
+- **beicola** (**etelvina**): Estrutura condicional equivalente à um if (estrutura condicional equivalente à um else);
 
 ```AGF
 #catucaPai#

@@ -1,7 +1,7 @@
 #catucaPai#
 bebel:i;
 i=0;
-taxi(i<10){;
+lineu|i<10|{;
     carrarinha|i|;
     i=i+1;
 };
