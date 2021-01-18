@@ -3,7 +3,7 @@ package agf;
 // file using Clip Object 
 import java.io.File;
 import java.io.IOException;
-// Código extraído de: https://www.codejava.net/coding/how-to-play-back-audio-in-java-with-examples
+// CÃ³digo extraÃ­do de: https://www.codejava.net/coding/how-to-play-back-audio-in-java-with-examples
  
 import javax.sound.sampled.AudioFormat;
 import javax.sound.sampled.AudioInputStream;
@@ -13,12 +13,10 @@ import javax.sound.sampled.LineUnavailableException;
 import javax.sound.sampled.SourceDataLine;
 import javax.sound.sampled.UnsupportedAudioFileException;
 /**
- * @autor: Otávio Pato
- * @email: otaviopato2017@outlook.com
- * @objetivo: Criar uma linguagem para empregar os conceitos de programação
- *            Orientada à Objetos aprendidos durante a matéria de Programação I
- *            do Curso Ciência da Computação da Universidade Federal da
- *            Fronteira sul Campus Chapecó.
+ * This is an example program that demonstrates how to play back an audio file
+ * using the SourceDataLine in Java Sound API.
+ * @author www.codejava.net
+ *
  */
 public class Musica {
 	// size of the byte buffer used to read/write the audio stream
@@ -43,7 +41,7 @@ public class Musica {
  
             audioLine.start();
              
-            System.out.println("\n--------------------------------------\nEssa família é muito unida!!...");
+            System.out.println("\n--------------------------------------\nEssa famÃ­lia Ã© muito unida!!...");
              
             byte[] bytesBuffer = new byte[BUFFER_SIZE];
             int bytesRead = -1;
@@ -56,7 +54,7 @@ public class Musica {
             audioLine.close();
             audioStream.close();
              
-            System.out.println("Catuca pai, catuca mãe, catuca filha,.....");
+            System.out.println("Catuca pai, catuca mÃ£e, catuca filha,.....");
              
         } catch (UnsupportedAudioFileException ex) {
             System.out.println("The specified audio file is not supported.");
@@ -65,7 +63,7 @@ public class Musica {
             System.out.println("Audio line for playing back is unavailable.");
             //ex.printStackTrace();
         } catch (java.io.FileNotFoundException ex) {
-        	System.out.println("Arquivo não encontrado: \"" + caminho + "\".");
+        	System.out.println("Arquivo nÃ£o encontrado: \"" + caminho + "\".");
         } catch (IOException ex) {
             System.out.println("Error playing the audio file.");
             //ex.printStackTrace();
