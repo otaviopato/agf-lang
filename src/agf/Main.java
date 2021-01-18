@@ -1,30 +1,34 @@
 package agf;
+
 /**
  * 
  */
 import agf.Interpretador;
 import agf.Miscelanea;
+import agf.Musica;
 
 /**
- * @autor: Otávio Pato
+ * @autor: OtÃ¡vio Pato
  * @email: otaviopato2017@outlook.com
- * @objetivo: Criar uma linguagem para empregar os conceitos de programação
- *            Orientada à Objetos aprendidos durante a matéria de Programação I
- *            do Curso Ciência da Computação da Universidade Federal da
- *            Fronteira sul Campus Chapecó.
+ * @objetivo: Criar uma linguagem para empregar os conceitos de programaÃ§Ã£o
+ *            Orientada Ã  Objetos aprendidos durante a matÃ©ria de ProgramaÃ§Ã£o I
+ *            do Curso CiÃªncia da ComputaÃ§Ã£o da Universidade Federal da
+ *            Fronteira sul Campus ChapecÃ³.
  */
 public class Main {
     public static void main(String[] args) {
-            //Interpretador interpretador = new Interpretador("testes/expressoes.agf");
-            if (!(args.length > 0))
-                Miscelanea.limpaTela("NÃ£o foi passado o argumento do caminho de cÃ³digo fonte.");
-            Interpretador interpretador = new Interpretador(args[0]);
-            /*
-                TODO: Ler os primeiros caracteres de uma linha e verificar se eles compÃµem exatamente alguma palavra reservada:
-                    taxi|
-                    beicola{;
-                    };
-                    };etelvina{;
-            */
+        // Interpretador interpretador = new Interpretador("testes/expressoes.agf");
+        if (!(args.length > 0))
+            Miscelanea.limpaTela("NÃƒÂ£o foi passado o argumento do caminho de cÃƒÂ³digo fonte.");
+        Interpretador interpretador = new Interpretador(args[0]);
+        if (args.length == 2) {
+            args[1].equals("-m");
+            Musica tocaMusica = new Musica();
+            tocaMusica.play(Musica.caminho);
+        }
+        /*
+         * TODO: Ler os primeiros caracteres de uma linha e verificar se eles compÃƒÂµem
+         * exatamente alguma palavra reservada: taxi| beicola{; }; };etelvina{;
+         */
     }
 }
