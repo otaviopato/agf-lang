@@ -2,7 +2,7 @@
 bebel:i;
 i=0;
 lineu|i<10|{;
-    carrarinha|i|;
+    carrarinhaln|i|;
     i=i+1;
 };
 #catucaMae#

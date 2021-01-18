@@ -1,7 +1,11 @@
 #catucaPai#
 bebel:a;
+mendonca:b;
 a=2;
-carrarinha|a|;
+carrarinhaln|a|;
+carrarinhaln|b|;
 tuco|a|;
-carrarinha|a|;
+tuco|b|;
+carrarinhaln|a|;
+carrarinhaln|b|;
 #catucaMae#

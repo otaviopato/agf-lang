@@ -16,7 +16,7 @@ public class PalavrasReservadas {
     public static final String pontoFlutuante = "mendonca";
     public static final String exibe = "carrarinha";
     public static final String leitura = "tuco";
-    public static final String lacoRepeticao = "taxi";
+    public static final String lacoRepeticao = "lineu";
     public static final String condicionalSe = "beicola";
     public static final String condicionalEntao = "etelvina";
     // Não deve ser mudado: Operações {"Adição", "Subtração", "Multiplicação", "Divisão", "Resto"}
@@ -24,7 +24,7 @@ public class PalavrasReservadas {
     // Comparações {"Igualdade", "Diferença", "Maior", "Menor"}
     public static final String[] comparacoes = {"==", "!=", ">", "<"};
 
-    public static String identificaImpressao(String linhaAtual, Map<String, Variavel> vars) {
+    public static String identificaImpressao(String linhaAtual, Map<String, Variavel> vars, boolean executa) {
         boolean newLine = false;
 
         // Verifica se possui o caractere de inicio de conteúdo
@@ -47,7 +47,10 @@ public class PalavrasReservadas {
             Miscelanea.limpaTela("Sintaxe inválida, falta fechar | em:\n-> " + linhaAtual);
     
         String conteudo = linhaAtual.substring(linhaAtual.indexOf("|")+1, linhaAtual.length()-2);
-        
+
+        if (!executa)
+            return "false";
+
         // Imprime Variável
         if (conteudo.indexOf("\"") == -1) {
             verificaPalavrasReservadas(conteudo, linhaAtual);
@@ -272,13 +275,13 @@ public class PalavrasReservadas {
             Miscelanea.limpaTela("Comparação inválida, tipos diferentes.");
     
         if (operacao.equals(PalavrasReservadas.comparacoes[0]))
-            return (valorConvertido1 == valorConvertido2);
+            return (Float.compare(valorConvertido1, valorConvertido2) == 0 ? true : false);
         else if (operacao.equals(PalavrasReservadas.comparacoes[1]))
-            return (valorConvertido1 != valorConvertido2);
+            return (Float.compare(valorConvertido1, valorConvertido2) == 0 ? false : true);
         else if (operacao.equals(PalavrasReservadas.comparacoes[2]))
-            System.out.println(valorConvertido1 < valorConvertido2);
+            return (Float.compare(valorConvertido1, valorConvertido2) > 0 ? true : false);
         else if (operacao.equals(PalavrasReservadas.comparacoes[3]))
-            return (valorConvertido1 > valorConvertido2);
+            return (Float.compare(valorConvertido1, valorConvertido2) < 0 ? true : false);
 
         Miscelanea.limpaTela("Comparação inválida:\n-> Valores = [" + identifica[0] + " -- " + identifica[1] + "];\nOperação = \"" + operacao + "\"\n");
         return false;

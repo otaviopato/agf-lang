@@ -18,10 +18,14 @@ public class Interpretador {
     public Map<String, Variavel> variaveis = new HashMap<String, Variavel>();
     private int aberturasDeEscopo;
     private int fechamentosDeEscopo;
+    public int condicionalAberto;
+    public int lacoAberto;
     private final String cabecalho = "#catucaPai#";
     private final String rodape = "#catucaMae#";
 
     public Interpretador(String nomeDoArquivo) {
+        this.condicionalAberto = 0;
+        this.lacoAberto = 0;
         atribuiAberturasDeEscopo(0);
         atribuiFechamentosDeEscopo(0);
         atribuiLinhasArquivo(nomeDoArquivo);
@@ -75,7 +79,7 @@ public class Interpretador {
                     Variavel novaVariavel = new Variavel(linhaAtual.substring(0, linhaAtual.indexOf(":")), declaracao[j]);
                     this.variaveis.put(declaracao[j], novaVariavel);
                 }
-            } else if (PalavrasReservadas.identificaImpressao(linhaAtual, variaveis) != "false") {
+            } else if (PalavrasReservadas.identificaImpressao(linhaAtual, variaveis, true) != "false") {
             } else if (PalavrasReservadas.identificaLeitura(linhaAtual, variaveis) != "false") {
                 // Lê Variável
                 Scanner entrada = new Scanner(System.in);
@@ -96,7 +100,7 @@ public class Interpretador {
                 String conteudo = PalavrasReservadas.identificaExpressao(linhaAtual, variaveis);
                 String chave = linhaAtual.substring(0, linhaAtual.indexOf("="));
                 this.variaveis.get(chave).atribuiValor(conteudo);
-            } else if (this.identificaEscopo(linhaAtual)) {
+            } else if (this.identificaEscopo(linhaAtual, atual, fim, true)) {
             } else {
                 Miscelanea.limpaTela("Linha inválida: \n" + linhaAtual);
             }
@@ -104,26 +108,115 @@ public class Interpretador {
         this.validaAberturasEFechamentosDeEscopo();
     }
 
-    private boolean identificaEscopo(String linhaAtual) {
-        // Verifica se possui o caractere de inicio de conteúdo
-        if (linhaAtual.indexOf("|") == -1 && !linhaAtual.contains(PalavrasReservadas.condicionalEntao) && !linhaAtual.equals("};"))
-            return false;
+    /*
+        @executa: true se os comandos identificados devem ser executados, ou false caso devam ser ignorados
+     */
+    public void identificaComandosEmEscopo(boolean executa, int atual, int fim) {
+        String[] declaracao;
+        String linhaAtual;
+        for (; atual < fim; atual++) {
+            // Recebe a linha atual
+            linhaAtual = this.arquivo.retornaLinhas().get(atual);
 
-        // Verifica abertura de escopo
-        if (linhaAtual.substring(linhaAtual.length()-2).equals("{;")) {
-            this.atribuiAberturasDeEscopo((this.retornaAberturasDeEscopo()+1));
-            if (linhaAtual.indexOf("|") != -1) {
-                // Verifica se possui o fechamento da área de conteúdo
-                if (!linhaAtual.substring(linhaAtual.length()-3, linhaAtual.length()-2).equals("|"))
-                    Miscelanea.limpaTela("Sintaxe inválida, falta fechar | em:\n-> " + linhaAtual);
-                String comparacao = linhaAtual.substring(linhaAtual.indexOf("|")+1, linhaAtual.length()-2);
-                System.out.println(linhaAtual + " = " + PalavrasReservadas.realizaComparacao(comparacao, this.variaveis));
+            //Verifica se possui ; no final
+            try {
+                if (!linhaAtual.substring(linhaAtual.length()-1).equals(";"))
+                    Miscelanea.limpaTela("Faltando \";\" em:\n\"" + linhaAtual +"\"\n");
+            } catch (IndexOutOfBoundsException e) {
+                Miscelanea.limpaTela("Faltando \";\" em:\n\"" + linhaAtual +"\"\n");
             }
-            return true;
-        } else if (linhaAtual.substring(linhaAtual.length()-2).equals("};")) {
+            // Verifica se é uma declaração de variável
+            if (PalavrasReservadas.identificaDeclaracaoDeVariavel(linhaAtual) > 0) {
+                // Recebe todas variáveis
+                declaracao = linhaAtual.substring(linhaAtual.indexOf(":")+1, linhaAtual.indexOf(";")).split(",");
+                if (executa) {
+                    // Reconhece variáveis
+                    for (int j = 0; j < declaracao.length; j++) {
+                        Variavel novaVariavel = new Variavel(linhaAtual.substring(0, linhaAtual.indexOf(":")), declaracao[j]);
+                        this.variaveis.put(declaracao[j], novaVariavel);
+                    }
+                }
+            } else if (PalavrasReservadas.identificaImpressao(linhaAtual, variaveis, executa) != "false") {
+            } else if (PalavrasReservadas.identificaLeitura(linhaAtual, variaveis) != "false") {
+                // Lê Variável
+                Scanner entrada = new Scanner(System.in);
+                String chave = linhaAtual.substring(linhaAtual.indexOf("|")+1, linhaAtual.length()-2);
+                String conteudo = this.variaveis.get(chave).retornaValor();
+                if (executa) {
+                    // Lê
+                    System.out.print("Digite uma variável do tipo \"" + variaveis.get(chave).retornaTipo() + "\" -> ");
+                    try {
+                        if (variaveis.get(chave).retornaTipo().equals(PalavrasReservadas.inteiro))
+                            conteudo = String.valueOf(entrada.nextInt());
+                        else if (variaveis.get(chave).retornaTipo().equals(PalavrasReservadas.pontoFlutuante))
+                            conteudo = Float.toString(entrada.nextFloat()).replace(".", ",");
+                        this.variaveis.get(chave).atribuiValor(conteudo);
+                    } catch (InputMismatchException e) {
+                        Miscelanea.limpaTela("Atribuição inválida, tipo esperado: \"" + variaveis.get(chave).retornaTipo() + "\".");
+                    }
+                }
+            } else if (PalavrasReservadas.identificaExpressao(linhaAtual, variaveis) != "false") {
+                String conteudo = PalavrasReservadas.identificaExpressao(linhaAtual, variaveis);
+                String chave = linhaAtual.substring(0, linhaAtual.indexOf("="));
+                if (executa)
+                    this.variaveis.get(chave).atribuiValor(conteudo);
+            } else if (identificaEscopo(linhaAtual, atual, fim, executa)) {
+            } else {
+                Miscelanea.limpaTela("Linha inválida: \n" + linhaAtual);
+            }
+        }
+        this.validaAberturasEFechamentosDeEscopo();
+    }
+
+    private boolean identificaEscopo(String linhaAtual, int atual, int fim, boolean executa) {
+        if (linhaAtual.equals("};")) {
             this.atribuiFechamentosDeEscopo((this.retornaFechamentosDeEscopo()+1));
             return true;
         }
+
+        // Verifica se possui o caractere de inicio de conteúdo
+        if (linhaAtual.indexOf("|") == -1 && !(PalavrasReservadas.condicionalEntao+"{;").equals(linhaAtual))
+            return false;
+        if (linhaAtual.substring(linhaAtual.length()-3).equals("|{;")) {
+            this.atribuiAberturasDeEscopo((this.retornaAberturasDeEscopo()+1));
+            String comparacao = linhaAtual.substring(linhaAtual.indexOf("|")+1, linhaAtual.length()-3);
+            //PalavrasReservadas.realizaComparacao(comparacao, this.variaveis);
+            return true;
+        }
+        if (linhaAtual.equals(PalavrasReservadas.condicionalEntao+"{;")) {
+            this.atribuiAberturasDeEscopo((this.retornaAberturasDeEscopo()+1));
+            return true;
+        }
+/*
+        // Verifica abertura de escopo
+        if (linhaAtual.substring(linhaAtual.length()-2).equals("{;")) {
+            this.atribuiAberturasDeEscopo((this.retornaAberturasDeEscopo()+1));
+            // Verifica
+            if (linhaAtual.indexOf("|") != -1 || (PalavrasReservadas.condicionalEntao+"{;").equals(linhaAtual)) {
+                // Verifica se possui o fechamento da área de conteúdo
+                if (!linhaAtual.substring(linhaAtual.length()-3, linhaAtual.length()-2).equals("|") && !(PalavrasReservadas.condicionalEntao+"{;").equals(linhaAtual))
+                    Miscelanea.limpaTela("Sintaxe inválida, falta fechar | em:\n-> " + linhaAtual);
+                String comparacao = linhaAtual.substring(linhaAtual.indexOf("|")+1, linhaAtual.length()-2);
+                // Identifica o laço de repetição
+                if (PalavrasReservadas.lacoRepeticao.equals(linhaAtual.substring(0, linhaAtual.length()-(comparacao.length()+3)))) {
+                    return true;
+                    /*
+                    this.lacoAberto++;
+                    while (!PalavrasReservadas.realizaComparacao(comparacao, this.variaveis))
+                        identificaComandosEmEscopo(true, atual, fim);
+                } else if (PalavrasReservadas.condicionalSe.equals(linhaAtual.substring(0, linhaAtual.length()-(comparacao.length()+3)))) {
+                    return true;
+                    /*this.condicionalAberto++;
+                    identificaComandosEmEscopo(PalavrasReservadas.realizaComparacao(comparacao, this.variaveis), atual, fim);
+                } else if ((PalavrasReservadas.condicionalEntao+"{;").equals(linhaAtual)) {
+                    return true;
+                    /*TODO
+                    
+                }
+            }
+        }*/
+        System.out.println(linhaAtual);
+        System.out.println((PalavrasReservadas.condicionalEntao+"{;").equals(linhaAtual));
         return false;
     }
 
