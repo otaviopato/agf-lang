@@ -1,4 +1,5 @@
 package agf;
+
 /**
  * 
  */
@@ -8,10 +9,13 @@ import agf.PalavrasReservadas;
 //
 import java.util.*;
 
-
 /**
- * @author Otávio Pato
- *
+ * @autor: Ot�vio Pato
+ * @email: otaviopato2017@outlook.com
+ * @objetivo: Criar uma linguagem para empregar os conceitos de programa��o
+ *            Orientada � Objetos aprendidos durante a mat�ria de Programa��o I
+ *            do Curso Ci�ncia da Computa��o da Universidade Federal da
+ *            Fronteira sul Campus Chapec�.
  */
 public class Interpretador {
     private Arquivo arquivo;
@@ -31,8 +35,7 @@ public class Interpretador {
         atribuiLinhasArquivo(nomeDoArquivo);
         verificaCabecalho();
         verificaRodape();
-        identificaComandos(1, this.arquivo.retornaLinhas().size()-1);
-        System.out.println("Código fonte lido com sucesso.");
+        identificaComandos(1, this.arquivo.retornaLinhas().size() - 1);
     }
 
     public void atribuiAberturasDeEscopo(int aberturasDeEscopo) {
@@ -63,27 +66,28 @@ public class Interpretador {
             // Recebe a linha atual
             linhaAtual = this.arquivo.retornaLinhas().get(atual);
 
-            //Verifica se possui ; no final
+            // Verifica se possui ; no final
             try {
-                if (!linhaAtual.substring(linhaAtual.length()-1).equals(";"))
-                    Miscelanea.limpaTela("Faltando \";\" em:\n\"" + linhaAtual +"\"\n");
+                if (!linhaAtual.substring(linhaAtual.length() - 1).equals(";"))
+                    Miscelanea.limpaTela("Faltando \";\" em:\n\"" + linhaAtual + "\"\n");
             } catch (IndexOutOfBoundsException e) {
-                Miscelanea.limpaTela("Faltando \";\" em:\n\"" + linhaAtual +"\"\n");
+                Miscelanea.limpaTela("Faltando \";\" em:\n\"" + linhaAtual + "\"\n");
             }
             // Verifica se é uma declaração de variável
             if (PalavrasReservadas.identificaDeclaracaoDeVariavel(linhaAtual) > 0) {
                 // Recebe todas variáveis
-                declaracao = linhaAtual.substring(linhaAtual.indexOf(":")+1, linhaAtual.indexOf(";")).split(",");
+                declaracao = linhaAtual.substring(linhaAtual.indexOf(":") + 1, linhaAtual.indexOf(";")).split(",");
                 // Reconhece variáveis
                 for (int j = 0; j < declaracao.length; j++) {
-                    Variavel novaVariavel = new Variavel(linhaAtual.substring(0, linhaAtual.indexOf(":")), declaracao[j]);
+                    Variavel novaVariavel = new Variavel(linhaAtual.substring(0, linhaAtual.indexOf(":")),
+                            declaracao[j]);
                     this.variaveis.put(declaracao[j], novaVariavel);
                 }
             } else if (PalavrasReservadas.identificaImpressao(linhaAtual, variaveis, true) != "false") {
             } else if (PalavrasReservadas.identificaLeitura(linhaAtual, variaveis) != "false") {
                 // Lê Variável
                 Scanner entrada = new Scanner(System.in);
-                String chave = linhaAtual.substring(linhaAtual.indexOf("|")+1, linhaAtual.length()-2);
+                String chave = linhaAtual.substring(linhaAtual.indexOf("|") + 1, linhaAtual.length() - 2);
                 String conteudo = this.variaveis.get(chave).retornaValor();
                 // Lê
                 System.out.print("Digite uma variável do tipo \"" + variaveis.get(chave).retornaTipo() + "\" -> ");
@@ -94,7 +98,8 @@ public class Interpretador {
                         conteudo = Float.toString(entrada.nextFloat()).replace(".", ",");
                     this.variaveis.get(chave).atribuiValor(conteudo);
                 } catch (InputMismatchException e) {
-                    Miscelanea.limpaTela("Atribuição inválida, tipo esperado: \"" + variaveis.get(chave).retornaTipo() + "\".");
+                    Miscelanea.limpaTela(
+                            "Atribuição inválida, tipo esperado: \"" + variaveis.get(chave).retornaTipo() + "\".");
                 }
             } else if (PalavrasReservadas.identificaExpressao(linhaAtual, variaveis) != "false") {
                 String conteudo = PalavrasReservadas.identificaExpressao(linhaAtual, variaveis);
@@ -109,7 +114,8 @@ public class Interpretador {
     }
 
     /*
-        @executa: true se os comandos identificados devem ser executados, ou false caso devam ser ignorados
+     * @executa: true se os comandos identificados devem ser executados, ou false
+     * caso devam ser ignorados
      */
     public void identificaComandosEmEscopo(boolean executa, int atual, int fim) {
         String[] declaracao;
@@ -118,21 +124,22 @@ public class Interpretador {
             // Recebe a linha atual
             linhaAtual = this.arquivo.retornaLinhas().get(atual);
 
-            //Verifica se possui ; no final
+            // Verifica se possui ; no final
             try {
-                if (!linhaAtual.substring(linhaAtual.length()-1).equals(";"))
-                    Miscelanea.limpaTela("Faltando \";\" em:\n\"" + linhaAtual +"\"\n");
+                if (!linhaAtual.substring(linhaAtual.length() - 1).equals(";"))
+                    Miscelanea.limpaTela("Faltando \";\" em:\n\"" + linhaAtual + "\"\n");
             } catch (IndexOutOfBoundsException e) {
-                Miscelanea.limpaTela("Faltando \";\" em:\n\"" + linhaAtual +"\"\n");
+                Miscelanea.limpaTela("Faltando \";\" em:\n\"" + linhaAtual + "\"\n");
             }
             // Verifica se é uma declaração de variável
             if (PalavrasReservadas.identificaDeclaracaoDeVariavel(linhaAtual) > 0) {
                 // Recebe todas variáveis
-                declaracao = linhaAtual.substring(linhaAtual.indexOf(":")+1, linhaAtual.indexOf(";")).split(",");
+                declaracao = linhaAtual.substring(linhaAtual.indexOf(":") + 1, linhaAtual.indexOf(";")).split(",");
                 if (executa) {
                     // Reconhece variáveis
                     for (int j = 0; j < declaracao.length; j++) {
-                        Variavel novaVariavel = new Variavel(linhaAtual.substring(0, linhaAtual.indexOf(":")), declaracao[j]);
+                        Variavel novaVariavel = new Variavel(linhaAtual.substring(0, linhaAtual.indexOf(":")),
+                                declaracao[j]);
                         this.variaveis.put(declaracao[j], novaVariavel);
                     }
                 }
@@ -140,7 +147,7 @@ public class Interpretador {
             } else if (PalavrasReservadas.identificaLeitura(linhaAtual, variaveis) != "false") {
                 // Lê Variável
                 Scanner entrada = new Scanner(System.in);
-                String chave = linhaAtual.substring(linhaAtual.indexOf("|")+1, linhaAtual.length()-2);
+                String chave = linhaAtual.substring(linhaAtual.indexOf("|") + 1, linhaAtual.length() - 2);
                 String conteudo = this.variaveis.get(chave).retornaValor();
                 if (executa) {
                     // Lê
@@ -152,7 +159,8 @@ public class Interpretador {
                             conteudo = Float.toString(entrada.nextFloat()).replace(".", ",");
                         this.variaveis.get(chave).atribuiValor(conteudo);
                     } catch (InputMismatchException e) {
-                        Miscelanea.limpaTela("Atribuição inválida, tipo esperado: \"" + variaveis.get(chave).retornaTipo() + "\".");
+                        Miscelanea.limpaTela(
+                                "Atribuição inválida, tipo esperado: \"" + variaveis.get(chave).retornaTipo() + "\".");
                     }
                 }
             } else if (PalavrasReservadas.identificaExpressao(linhaAtual, variaveis) != "false") {
@@ -170,53 +178,53 @@ public class Interpretador {
 
     private boolean identificaEscopo(String linhaAtual, int atual, int fim, boolean executa) {
         if (linhaAtual.equals("};")) {
-            this.atribuiFechamentosDeEscopo((this.retornaFechamentosDeEscopo()+1));
+            this.atribuiFechamentosDeEscopo((this.retornaFechamentosDeEscopo() + 1));
             return true;
         }
 
         // Verifica se possui o caractere de inicio de conteúdo
-        if (linhaAtual.indexOf("|") == -1 && !(PalavrasReservadas.condicionalEntao+"{;").equals(linhaAtual))
+        if (linhaAtual.indexOf("|") == -1 && !(PalavrasReservadas.condicionalEntao + "{;").equals(linhaAtual))
             return false;
-        if (linhaAtual.substring(linhaAtual.length()-3).equals("|{;")) {
-            this.atribuiAberturasDeEscopo((this.retornaAberturasDeEscopo()+1));
-            String comparacao = linhaAtual.substring(linhaAtual.indexOf("|")+1, linhaAtual.length()-3);
-            //PalavrasReservadas.realizaComparacao(comparacao, this.variaveis);
+        if (linhaAtual.substring(linhaAtual.length() - 3).equals("|{;")) {
+            this.atribuiAberturasDeEscopo((this.retornaAberturasDeEscopo() + 1));
+            String comparacao = linhaAtual.substring(linhaAtual.indexOf("|") + 1, linhaAtual.length() - 3);
+            // PalavrasReservadas.realizaComparacao(comparacao, this.variaveis);
             return true;
         }
-        if (linhaAtual.equals(PalavrasReservadas.condicionalEntao+"{;")) {
-            this.atribuiAberturasDeEscopo((this.retornaAberturasDeEscopo()+1));
+        if (linhaAtual.equals(PalavrasReservadas.condicionalEntao + "{;")) {
+            this.atribuiAberturasDeEscopo((this.retornaAberturasDeEscopo() + 1));
             return true;
         }
-/*
-        // Verifica abertura de escopo
-        if (linhaAtual.substring(linhaAtual.length()-2).equals("{;")) {
-            this.atribuiAberturasDeEscopo((this.retornaAberturasDeEscopo()+1));
-            // Verifica
-            if (linhaAtual.indexOf("|") != -1 || (PalavrasReservadas.condicionalEntao+"{;").equals(linhaAtual)) {
-                // Verifica se possui o fechamento da área de conteúdo
-                if (!linhaAtual.substring(linhaAtual.length()-3, linhaAtual.length()-2).equals("|") && !(PalavrasReservadas.condicionalEntao+"{;").equals(linhaAtual))
-                    Miscelanea.limpaTela("Sintaxe inválida, falta fechar | em:\n-> " + linhaAtual);
-                String comparacao = linhaAtual.substring(linhaAtual.indexOf("|")+1, linhaAtual.length()-2);
-                // Identifica o laço de repetição
-                if (PalavrasReservadas.lacoRepeticao.equals(linhaAtual.substring(0, linhaAtual.length()-(comparacao.length()+3)))) {
-                    return true;
-                    /*
-                    this.lacoAberto++;
-                    while (!PalavrasReservadas.realizaComparacao(comparacao, this.variaveis))
-                        identificaComandosEmEscopo(true, atual, fim);
-                } else if (PalavrasReservadas.condicionalSe.equals(linhaAtual.substring(0, linhaAtual.length()-(comparacao.length()+3)))) {
-                    return true;
-                    /*this.condicionalAberto++;
-                    identificaComandosEmEscopo(PalavrasReservadas.realizaComparacao(comparacao, this.variaveis), atual, fim);
-                } else if ((PalavrasReservadas.condicionalEntao+"{;").equals(linhaAtual)) {
-                    return true;
-                    /*TODO
-                    
-                }
-            }
-        }*/
+        /*
+         * // Verifica abertura de escopo if
+         * (linhaAtual.substring(linhaAtual.length()-2).equals("{;")) {
+         * this.atribuiAberturasDeEscopo((this.retornaAberturasDeEscopo()+1)); //
+         * Verifica if (linhaAtual.indexOf("|") != -1 ||
+         * (PalavrasReservadas.condicionalEntao+"{;").equals(linhaAtual)) { // Verifica
+         * se possui o fechamento da área de conteúdo if
+         * (!linhaAtual.substring(linhaAtual.length()-3,
+         * linhaAtual.length()-2).equals("|") &&
+         * !(PalavrasReservadas.condicionalEntao+"{;").equals(linhaAtual))
+         * Miscelanea.limpaTela("Sintaxe inválida, falta fechar | em:\n-> " +
+         * linhaAtual); String comparacao =
+         * linhaAtual.substring(linhaAtual.indexOf("|")+1, linhaAtual.length()-2); //
+         * Identifica o laço de repetição if
+         * (PalavrasReservadas.lacoRepeticao.equals(linhaAtual.substring(0,
+         * linhaAtual.length()-(comparacao.length()+3)))) { return true; /*
+         * this.lacoAberto++; while (!PalavrasReservadas.realizaComparacao(comparacao,
+         * this.variaveis)) identificaComandosEmEscopo(true, atual, fim); } else if
+         * (PalavrasReservadas.condicionalSe.equals(linhaAtual.substring(0,
+         * linhaAtual.length()-(comparacao.length()+3)))) { return true;
+         * /*this.condicionalAberto++;
+         * identificaComandosEmEscopo(PalavrasReservadas.realizaComparacao(comparacao,
+         * this.variaveis), atual, fim); } else if
+         * ((PalavrasReservadas.condicionalEntao+"{;").equals(linhaAtual)) { return
+         * true; /*TODO
+         * 
+         * } } }
+         */
         System.out.println(linhaAtual);
-        System.out.println((PalavrasReservadas.condicionalEntao+"{;").equals(linhaAtual));
+        System.out.println((PalavrasReservadas.condicionalEntao + "{;").equals(linhaAtual));
         return false;
     }
 
@@ -234,19 +242,22 @@ public class Interpretador {
 
     private void verificaCabecalho() {
         try {
-            if ( !this.arquivo.retornaLinha(0).equals(retornaCabecalho()))
-                Miscelanea.limpaTela("Cabeçalho não instanciado adequamente.\nCabeçalho tem que ser: -> \"" + retornaCabecalho() + "\".\nE não -> \"" + this.arquivo.retornaLinha(0) + "\".");
+            if (!this.arquivo.retornaLinha(0).equals(retornaCabecalho()))
+                Miscelanea.limpaTela("Cabeçalho não instanciado adequamente.\nCabeçalho tem que ser: -> \""
+                        + retornaCabecalho() + "\".\nE não -> \"" + this.arquivo.retornaLinha(0) + "\".");
         } catch (IndexOutOfBoundsException e) {
-            Miscelanea.limpaTela("Código fonte incorreto:\n\"" + this.arquivo +"\"\n");
+            Miscelanea.limpaTela("Código fonte incorreto:\n\"" + this.arquivo + "\"\n");
         }
     }
 
     private void verificaRodape() {
         try {
-            if ( !this.arquivo.retornaLinha(this.arquivo.retornaQuantidadeDeLinhas()-1).equals(retornaRodape()))
-                Miscelanea.limpaTela("Rodapé não instanciado adequamente.\nCabeçalho tem que ser: -> \"" + retornaRodape() + "\".\nE não -> \"" + this.arquivo.retornaLinha(this.arquivo.retornaQuantidadeDeLinhas()-1) + "\".");
+            if (!this.arquivo.retornaLinha(this.arquivo.retornaQuantidadeDeLinhas() - 1).equals(retornaRodape()))
+                Miscelanea.limpaTela("Rodapé não instanciado adequamente.\nCabeçalho tem que ser: -> \""
+                        + retornaRodape() + "\".\nE não -> \""
+                        + this.arquivo.retornaLinha(this.arquivo.retornaQuantidadeDeLinhas() - 1) + "\".");
         } catch (IndexOutOfBoundsException e) {
-            Miscelanea.limpaTela("Código fonte incorreto:\n\"" + this.arquivo +"\"\n");
+            Miscelanea.limpaTela("Código fonte incorreto:\n\"" + this.arquivo + "\"\n");
         }
     }
 }

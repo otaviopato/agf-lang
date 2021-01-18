@@ -10,8 +10,12 @@ import java.util.Set;
 import java.util.HashSet;
 
 /**
- * @author OtÃ¡vio Pato
- *
+ * @autor: Otávio Pato
+ * @email: otaviopato2017@outlook.com
+ * @objetivo: Criar uma linguagem para empregar os conceitos de programação
+ *            Orientada à Objetos aprendidos durante a matéria de Programação I
+ *            do Curso Ciência da Computação da Universidade Federal da
+ *            Fronteira sul Campus Chapecó.
  */
 public class Variavel {
     private static final Set<String> nomes = new HashSet<String>();

@@ -6,8 +6,12 @@ import agf.Interpretador;
 import agf.Miscelanea;
 
 /**
- * @author OtÃ¡vio Pato
- *
+ * @autor: Otávio Pato
+ * @email: otaviopato2017@outlook.com
+ * @objetivo: Criar uma linguagem para empregar os conceitos de programação
+ *            Orientada à Objetos aprendidos durante a matéria de Programação I
+ *            do Curso Ciência da Computação da Universidade Federal da
+ *            Fronteira sul Campus Chapecó.
  */
 public class Main {
     public static void main(String[] args) {
