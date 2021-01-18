@@ -2,7 +2,7 @@
 
 A linguagem da Grande Família
 
-## Instruções de execução ##`
+## Instruções de execução ##
 
 ```bash
 java -jar agf-lang.jar testes/expressoes.agf -m
