@@ -1,0 +1,14 @@
+#catucaPai#
+mendonca:a,b,c,d,sum;
+a=10;
+b=10;
+c=10;
+d=10;
+sum=a+b;
+sum=sum+c;
+sum=sum+d;
+sum=sum*4;
+carrarinhaln|sum|;
+
+
+#catucaMae#
