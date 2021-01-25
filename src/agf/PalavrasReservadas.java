@@ -9,12 +9,12 @@ import agf.Variavel;
 import java.util.*;
 
 /**
- * @autor: Ot�vio Pato
+ * @autor: Otavio Pato
  * @email: otaviopato2017@outlook.com
- * @objetivo: Criar uma linguagem para empregar os conceitos de programa��o
- *            Orientada � Objetos aprendidos durante a mat�ria de Programa��o I
- *            do Curso Ci�ncia da Computa��o da Universidade Federal da
- *            Fronteira sul Campus Chapec�.
+ * @objetivo: Criar uma linguagem para empregar os conceitos de programacao
+ *            Orientada a Objetos aprendidos durante a materia de Programacao I
+ *            do Curso Ciencia da Computacao da Universidade Federal da
+ *            Fronteira sul Campus Chapeco.
  */
 public class PalavrasReservadas {
     public static final String inteiro = "bebel";
